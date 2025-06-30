@@ -1,0 +1,195 @@
+from django.db import models
+
+class Plant(models.Model): 
+    uid       = models.CharField(max_length=10)
+    devType   = models.CharField(max_length=30)
+    devName   = models.CharField(max_length=30)
+    timestamp = models.IntegerField()
+
+    slf       = models.FloatField()
+    
+    
+    def __str__(self): 
+        return str(self.devName)
+    
+    
+class Meter(models.Model): 
+    uid       = models.CharField(max_length=10)
+    devType   = models.CharField(max_length=30)
+    devName   = models.CharField(max_length=30)
+    timestamp = models.IntegerField()
+
+    _mtr_a1     = models.FloatField(null=True, blank=True)
+    _mtr_a2     = models.FloatField(null=True, blank=True)
+    _mtr_a3     = models.FloatField(null=True, blank=True)
+    _mtr_freq   = models.FloatField(null=True, blank=True)
+    _mtr_vll    = models.FloatField(null=True, blank=True)
+    _mtr_vln    = models.FloatField(null=True, blank=True)
+    _mtr_iln    = models.FloatField(null=True, blank=True)
+    _mtr_pf     = models.FloatField(null=True, blank=True)
+    _mtr_w      = models.FloatField(null=True, blank=True)
+    _mtr_va     = models.FloatField(null=True, blank=True)
+    _mtr_var    = models.FloatField(null=True, blank=True)
+    _mtr_whtot  = models.FloatField(null=True, blank=True)
+    _mtr_whimp  = models.FloatField(null=True, blank=True)
+    _mtr_whexp  = models.FloatField(null=True, blank=True)
+    _mtr_vahtot = models.FloatField(null=True, blank=True)
+    _mtr_vahimp = models.FloatField(null=True, blank=True)
+    _mtr_vahexp = models.FloatField(null=True, blank=True)
+    _mtr_v12    = models.FloatField(null=True, blank=True)
+    _mtr_v23    = models.FloatField(null=True, blank=True)
+    _mtr_v31    = models.FloatField(null=True, blank=True)
+    _mtr_v1     = models.FloatField(null=True, blank=True)
+    _mtr_v2     = models.FloatField(null=True, blank=True)
+    _mtr_v3     = models.FloatField(null=True, blank=True)
+    _mtr_11     = models.FloatField(null=True, blank=True)
+    _mtr_12     = models.FloatField(null=True, blank=True)
+    _mtr_13     = models.FloatField(null=True, blank=True)
+    _mtr_pf1    = models.FloatField(null=True, blank=True)
+    _mtr_pf2    = models.FloatField(null=True, blank=True)
+    _mtr_pf3    = models.FloatField(null=True, blank=True)
+    _mtr_w1     = models.FloatField(null=True, blank=True)
+    _mtr_w2     = models.FloatField(null=True, blank=True)
+    _mtr_w3     = models.FloatField(null=True, blank=True)
+    _mtr_va1    = models.FloatField(null=True, blank=True)
+    _mtr_va2    = models.FloatField(null=True, blank=True)
+    _mtr_va3    = models.FloatField(null=True, blank=True)
+    _mtr_var1   = models.FloatField(null=True, blank=True)
+    _mtr_var2   = models.FloatField(null=True, blank=True)
+    _mtr_var3   = models.FloatField(null=True, blank=True)
+
+    def __str__(self): 
+        return str(self.devName)
+
+
+class Inverter(models.Model): 
+    uid       = models.CharField(max_length=10)
+    devType   = models.CharField(max_length=30)
+    devName   = models.CharField(max_length=30)
+    timestamp = models.IntegerField()
+
+    _inv_vin     = models.FloatField(null=True, blank=True)
+    _inv_lin     = models.FloatField(null=True, blank=True)
+    _inv_win     = models.FloatField(null=True, blank=True)
+    _inv_v       = models.FloatField(null=True, blank=True)
+    _inv_I       = models.FloatField(null=True, blank=True)
+    _inv_w       = models.FloatField(null=True, blank=True)
+    _inv_va      = models.FloatField(null=True, blank=True)
+    _inv_ar      = models.FloatField(null=True, blank=True)
+    _inv_freq    = models.FloatField(null=True, blank=True)
+    _inv_pf      = models.FloatField(null=True, blank=True)
+    _inv_totyld  = models.FloatField(null=True, blank=True)
+    _inv_inttemp = models.FloatField(null=True, blank=True)
+    _inv_hstemp  = models.FloatField(null=True, blank=True)
+    _inv_w1      = models.FloatField(null=True, blank=True)
+    _inv_w2      = models.FloatField(null=True, blank=True)
+    _inv_w3      = models.FloatField(null=True, blank=True)
+    _inv_v1      = models.FloatField(null=True, blank=True)
+    _inv_v2      = models.FloatField(null=True, blank=True)
+    _inv_v3      = models.FloatField(null=True, blank=True)
+    _inv_i1      = models.FloatField(null=True, blank=True)
+    _inv_i2      = models.FloatField(null=True, blank=True)
+    _inv_i3      = models.FloatField(null=True, blank=True)
+    _inv_mpv1    = models.FloatField(null=True, blank=True)
+    _inv_mpi1    = models.FloatField(null=True, blank=True)
+    _inv_mpv2    = models.FloatField(null=True, blank=True)
+    _inv_mpi2    = models.FloatField(null=True, blank=True)
+    _inv_mpv3    = models.FloatField(null=True, blank=True)
+    _inv_mpi3    = models.FloatField(null=True, blank=True)
+    _inv_mpv4    = models.FloatField(null=True, blank=True)
+    _inv_mpi4    = models.FloatField(null=True, blank=True)
+    _inv_mpv5    = models.FloatField(null=True, blank=True)
+    _inv_mpi5    = models.FloatField(null=True, blank=True)
+    _inv_mpv6    = models.FloatField(null=True, blank=True)
+    _inv_mpi6    = models.FloatField(null=True, blank=True)
+    _inv_mpv7    = models.FloatField(null=True, blank=True)
+    _inv_mpi7    = models.FloatField(null=True, blank=True)
+    _inv_mpv8    = models.FloatField(null=True, blank=True)
+    _inv_mpi8    = models.FloatField(null=True, blank=True)
+    _inv_mpv9    = models.FloatField(null=True, blank=True)
+    _inv_mpi9    = models.FloatField(null=True, blank=True)
+    _inv_mpv10   = models.FloatField(null=True, blank=True)
+    _inv_mpi10   = models.FloatField(null=True, blank=True)
+    _inv_mpv11   = models.FloatField(null=True, blank=True)
+    _inv_mpi11   = models.FloatField(null=True, blank=True)
+    _inv_mpv12   = models.FloatField(null=True, blank=True)
+    _inv_mpi12   = models.FloatField(null=True, blank=True)
+    _inv_dayyld  = models.FloatField(null=True, blank=True)
+    _inv_stat    = models.FloatField(null=True, blank=True)
+    _inv_event   = models.FloatField(null=True, blank=True)
+    _inv_alarm1  = models.FloatField(null=True, blank=True)
+    _inv_error1  = models.FloatField(null=True, blank=True)
+
+    def __str__(self): 
+        return str(self.devName)
+
+class Weather(models.Model): 
+    uid       = models.CharField(max_length=10)
+    devType   = models.CharField(max_length=30)
+    devName   = models.CharField(max_length=30)
+    timestamp = models.IntegerField()
+    
+    mbWM2Horz  = models.FloatField(null=True, blank=True)
+    mbWM2Tilt  = models.FloatField(null=True, blank=True)
+    mbWMTA     = models.FloatField(null=True, blank=True)
+    mbWMTM     = models.FloatField(null=True, blank=True)
+    mbWMWS     = models.FloatField(null=True, blank=True)
+    mbWMWD     = models.FloatField(null=True, blank=True)
+    mbWM2HorzE = models.FloatField(null=True, blank=True)
+    mbWM2TiltE = models.FloatField(null=True, blank=True)
+    mbWMTAE    = models.FloatField(null=True, blank=True)
+    mbWMTME    = models.FloatField(null=True, blank=True)
+    mbWMWSE    = models.FloatField(null=True, blank=True)
+    mbWMWDE    = models.FloatField(null=True, blank=True)
+
+    def __str__(self): 
+        return str(self.devName)
+
+
+class SCB(models.Model): 
+    uid       = models.CharField(max_length=10)
+    devType   = models.CharField(max_length=30)
+    devName   = models.CharField(max_length=30)
+    timestamp = models.IntegerField()
+    
+    _scb_v        = models.FloatField(null=True, blank=True)
+    _scb_itot     = models.FloatField(null=True, blank=True)
+    _scb_ptot     = models.FloatField(null=True, blank=True)
+    _scb_inttemp  = models.FloatField(null=True, blank=True)
+    _scb_exttemp1 = models.FloatField(null=True, blank=True)
+
+    def __str__(self): 
+        return str(self.devName)
+
+
+class SCBString(models.Model):
+    scb           = models.OneToOneField(SCB, on_delete=models.SET_NULL, null=True, related_name='strings') 
+    _scb_i1       = models.FloatField(null=True, blank=True)
+    _scb_i2       = models.FloatField(null=True, blank=True)
+    _scb_i3       = models.FloatField(null=True, blank=True)
+    _scb_i4       = models.FloatField(null=True, blank=True)
+    _scb_i5       = models.FloatField(null=True, blank=True)
+    _scb_i6       = models.FloatField(null=True, blank=True)
+    _scb_i7       = models.FloatField(null=True, blank=True)
+    _scb_i8       = models.FloatField(null=True, blank=True)
+    _scb_i9       = models.FloatField(null=True, blank=True)
+    _scb_i10      = models.FloatField(null=True, blank=True)
+    _scb_i11      = models.FloatField(null=True, blank=True)
+    _scb_i12      = models.FloatField(null=True, blank=True)
+    _scb_i13      = models.FloatField(null=True, blank=True)
+    _scb_i14      = models.FloatField(null=True, blank=True)
+    _scb_i15      = models.FloatField(null=True, blank=True)
+    _scb_i16      = models.FloatField(null=True, blank=True)
+    _scb_i17      = models.FloatField(null=True, blank=True)
+    _scb_i18      = models.FloatField(null=True, blank=True)
+    _scb_i19      = models.FloatField(null=True, blank=True)
+    _scb_i20      = models.FloatField(null=True, blank=True)
+    _scb_i21      = models.FloatField(null=True, blank=True)
+    _scb_i22      = models.FloatField(null=True, blank=True)
+    _scb_i23      = models.FloatField(null=True, blank=True)
+    _scb_i24      = models.FloatField(null=True, blank=True)
+
+    def __str__(self): 
+        # return 'SCB String'
+        return self.scb.devName + '_String'
+        
