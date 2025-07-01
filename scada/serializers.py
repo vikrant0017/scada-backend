@@ -12,33 +12,28 @@ class StrictCharField(serializers.CharField):
         return super().to_internal_value(data)
 
 
+class BooleanAsIntegerField(serializers.BooleanField):
+    def to_representation(self, value):
+        return 1 if super().to_representation(value) else 0
+
+    def to_internal_value(self, data):
+        return True if data == 1 else False
+
+
 class InverterSerializer(serializers.ModelSerializer):
     uid = StrictCharField()
     devName = StrictCharField()
     devType = StrictCharField()
 
     # Convert boolean fields to integers (1/0) for API response
-    _inv_stat = serializers.SerializerMethodField()
-    _inv_event = serializers.SerializerMethodField()
-    _inv_alarm1 = serializers.SerializerMethodField()
-    _inv_error1 = serializers.SerializerMethodField()
+    _inv_stat = BooleanAsIntegerField(required=False)
+    _inv_event = BooleanAsIntegerField(required=False)
+    _inv_alarm1 = BooleanAsIntegerField(required=False)
+    _inv_error1 = BooleanAsIntegerField(required=False)
 
     class Meta:
         model = Inverter
         exclude = ["id"]
-
-    def get__inv_stat(self, obj):
-        return 1 if obj._inv_stat else 0
-
-    def get__inv_event(self, obj):
-        return 1 if obj._inv_event else 0
-
-    def get__inv_alarm1(self, obj):
-        return 1 if obj._inv_alarm1 else 0
-
-    def get__inv_error1(self, obj):
-        return 1 if obj._inv_error1 else 0 
-    
 
 class PlantSerializer(serializers.ModelSerializer):
     uid = StrictCharField()
