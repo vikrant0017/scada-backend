@@ -88,7 +88,7 @@ def generate_sample(device):
             sample[field.name] = random.randint(0, 100)
 
         if isinstance(field, models.FloatField):
-            sample[field.name] = random.uniform(0, 100)
+            sample[field.name] = round(random.uniform(0, 100), 2)
 
         if isinstance(field, models.BooleanField):
             sample[field.name] = random.choice([1, 0])
@@ -106,7 +106,7 @@ def generate_samples_for_devices(devices_dict):
     return result
 
 
-def generate_json_payload(uid="SLM00E923M", timestamp=int(datetime.now().timestamp())):
+def generate_json_payload(uid, timestamp):
     json_payload = {}
     dev_samples = generate_samples_for_devices(
         {
@@ -139,11 +139,17 @@ def generate_json_payload(uid="SLM00E923M", timestamp=int(datetime.now().timesta
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--uid", type=str, default="SLM00E923M")
+    parser.add_argument("--uid", type=str)
     parser.add_argument("--timestamp", type=int)
     args = parser.parse_args()
 
-    json_payload = generate_json_payload(uid=args.uid, timestamp=args.timestamp)
+    default_uid = "SLM00E923M"
+    default_timestamp = int(datetime.now().timestamp())
+
+    json_payload = generate_json_payload(
+        uid=args.uid if args.uid else default_uid,
+        timestamp=args.timestamp if args.timestamp else default_timestamp,
+    )
 
     sample_number = 1
     samples_dir = "samples"
