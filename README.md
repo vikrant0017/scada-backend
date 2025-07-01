@@ -49,6 +49,8 @@ You can test the API endpoints using our Postman collection. Since the API runs 
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/payload-participant-67764480/my-workspace/collection/bq86ffg/scada-rest-api)
 
+Click the "Run in Postman" button to open the collection in Postman and fork the collection to your workspace to use it. This will allow you to easily test the API endpoints and explore the request/response formats.
+
 **Note:** Make sure your local development server is running before testing the endpoints in Postman.
 
 ### Documentation (SwaggerUI)
