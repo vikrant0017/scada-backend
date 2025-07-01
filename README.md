@@ -104,6 +104,29 @@ You can test the API endpoints using our Postman collection. Since the API runs 
 - **Description:** Retrieves the latest data for all devices associated with a specific plant UID.
 - **Response:** A JSON object containing the latest data for each device type within the plant.
 
+
+## Sample Data Generation
+
+The project includes a `generate-samples.py` script that helps generate sample JSON payloads for testing the API endpoints. The script creates test data that matches the expected schema of the API.
+
+### Features
+- Creates properly formatted JSON payloads that match the API's expected schema
+- Includes device names and types based on the SuryaLog API Guide Document.
+- Supports custom UID and timestamp values
+
+### Usage
+
+1. **Basic Usage** (uses default values):
+   ```bash
+   python generate-samples.py
+   ```
+
+2. **Custom UID and Timestamp**:
+   ```bash
+   python generate-samples.py [--uid <uid>] [--timestamp <timestamp>]
+   ```
+
+
 ## Data Models
 
 The application uses the following Django models to structure the data:
