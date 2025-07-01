@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "drf_spectacular",
+    "corsheaders",
     "scada"
 ]
 
@@ -50,6 +51,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "corsheaders.middleware.CorsMiddleware"
 ]
 
 ROOT_URLCONF = "mysite.urls"
@@ -138,3 +140,5 @@ SPECTACULAR_SETTINGS = {
     # 'COMPONENT_SPLIT_REQUEST': True,
     # 'SCHEMA_PATH_PREFIX': r'/api/'
 }
+
+CORS_ALLOW_ALL_ORIGINS = True
