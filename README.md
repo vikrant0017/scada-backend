@@ -2,21 +2,13 @@
 
 This project is a Django-based application designed to collect and manage data from various SCADA (Supervisory Control and Data Acquisition) devices. It provides a RESTful API for receiving time-series data from devices such as meters, inverters, weather stations, and string combiner boxes (SCBs). The application validates the incoming data, stores it in a structured database, and offers endpoints to retrieve the collected information.
 
-## Features
-
-- **Data Ingestion:** A robust endpoint to receive and process JSON payloads containing data from multiple device types in a single request.
-- **Data Validation:** Ensures the integrity of incoming data by validating content type, required attributes, and data formats.
-- **Partial Success Handling:** In cases of mixed valid and invalid data, the API gracefully handles partial success and provides detailed error feedback.
-- **Data Retrieval:** Endpoints to fetch detailed data for specific devices or the latest data for an entire plant.
-- **Scalable Architecture:** Built with Django and Django REST Framework, providing a solid foundation for further expansion and development.
-
 ## Installation
 
 To get the project up and running on your local machine, follow these steps:
 
 1. **Clone the repository:**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/vikrant0017/scada-backend.git
    cd django-backend
    ```
 
@@ -46,15 +38,26 @@ To get the project up and running on your local machine, follow these steps:
    python manage.py createsuperuser
    ```
 
-   
-   
 
+## API 
+The API is accessible at `http://127.0.0.1:8000`.
 
-The API will be accessible at `http://127.0.0.1:8000`.
+### Testing with Postman
+You can test the API endpoints using our Postman collection. Since the API runs on your local server, you'll need to use the Postman desktop application (browser version won't work with localhost).
 
-## API Endpoints
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/payload-participant-67764480/workspace/my-workspace/collection/15780986-3ba04bc6-0220-488a-bb2d-f8635f6ef78e?action=share&source=copy-link&creator=15780986)
 
-### 1. Post Data
+**Note:** Make sure your local development server is running before testing the endpoints in Postman.
+
+### Documentation (SwaggerUI)
+
+- **Endpoint:** `/api/schema/swagger-ui/`
+- **Method:** `GET`
+- **Description:** Interactive API documentation where you can explore and test all available API endpoints. The documentation is automatically generated from the API schema and provides detailed information about request/response formats, parameters, and example requests.
+
+### Endpoints
+
+#### 1. Post Data
 
 - **Endpoint:** `api/v1/data/`
 - **Method:** `POST`
@@ -85,14 +88,16 @@ The API will be accessible at `http://127.0.0.1:8000`.
   - `400 Bad Request`: Validation error, such as missing attributes.
   - `415 Unsupported Media Type`: Invalid content type.
 
-### 2. Get Inverter Details
+
+
+#### 2. Get Inverter Details
 
 - **Endpoint:** `/api/v1/inverter/<devName>/`
 - **Method:** `GET`
 - **Description:** Retrieves all data records for a specific inverter.
 - **Response:** A JSON array of inverter data objects.
 
-### 3. Get Plant Data
+#### 3. Get Plant Data
 
 - **Endpoint:** `/api/v1/plant/<uid>/`
 - **Method:** `GET`
