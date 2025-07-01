@@ -47,7 +47,7 @@ The API is accessible at `http://127.0.0.1:8000`.
 ### Testing with Postman
 You can test the API endpoints using our Postman collection. Since the API runs on your local server, you'll need to use the Postman desktop application (browser version won't work with localhost).
 
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/payload-participant-67764480/workspace/my-workspace/collection/15780986-3ba04bc6-0220-488a-bb2d-f8635f6ef78e?action=share&source=copy-link&creator=15780986)
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://www.postman.com/payload-participant-67764480/my-workspace/collection/bq86ffg/scada-rest-api)
 
 **Note:** Make sure your local development server is running before testing the endpoints in Postman.
 
