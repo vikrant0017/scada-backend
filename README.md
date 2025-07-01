@@ -16,6 +16,8 @@ To get the project up and running on your local machine, follow these steps:
    ```bash
    python3 -m venv venv
    source venv/bin/activate
+   # or for windows
+   venv\Scripts\activate
    ```
 
 3. **Install the dependencies:**
