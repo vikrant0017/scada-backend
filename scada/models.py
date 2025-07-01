@@ -115,10 +115,10 @@ class Inverter(models.Model):
     _inv_mpv12   = models.FloatField(null=True, blank=True)
     _inv_mpi12   = models.FloatField(null=True, blank=True)
     _inv_dayyld  = models.FloatField(null=True, blank=True)
-    _inv_stat    = models.FloatField(null=True, blank=True)
-    _inv_event   = models.FloatField(null=True, blank=True)
-    _inv_alarm1  = models.FloatField(null=True, blank=True)
-    _inv_error1  = models.FloatField(null=True, blank=True)
+    _inv_stat    = models.BooleanField(default=False)
+    _inv_event   = models.BooleanField(default=False)
+    _inv_alarm1  = models.BooleanField(default=False)
+    _inv_error1  = models.BooleanField(default=False)
 
     def __str__(self): 
         return str(self.devName)

@@ -17,10 +17,28 @@ class InverterSerializer(serializers.ModelSerializer):
     devName = StrictCharField()
     devType = StrictCharField()
 
+    # Convert boolean fields to integers (1/0) for API response
+    _inv_stat = serializers.SerializerMethodField()
+    _inv_event = serializers.SerializerMethodField()
+    _inv_alarm1 = serializers.SerializerMethodField()
+    _inv_error1 = serializers.SerializerMethodField()
+
     class Meta:
         model = Inverter
         exclude = ["id"]
 
+    def get__inv_stat(self, obj):
+        return 1 if obj._inv_stat else 0
+
+    def get__inv_event(self, obj):
+        return 1 if obj._inv_event else 0
+
+    def get__inv_alarm1(self, obj):
+        return 1 if obj._inv_alarm1 else 0
+
+    def get__inv_error1(self, obj):
+        return 1 if obj._inv_error1 else 0 
+    
 
 class PlantSerializer(serializers.ModelSerializer):
     uid = StrictCharField()
@@ -109,3 +127,56 @@ class SCBSerializer(serializers.ModelSerializer):
         strings = representation.pop("strings")
         representation.update(strings)
         return representation
+
+
+class DataViewRequestSerializer(serializers.Serializer):
+    class TagsSerializer(serializers.Serializer):
+        Inverter = serializers.ListField(child=serializers.CharField(), required=False)
+        Meter = serializers.ListField(child=serializers.CharField(), required=False)
+        Weather = serializers.ListField(child=serializers.CharField(), required=False)
+        SCB = serializers.ListField(child=serializers.CharField(), required=False)
+        Plant = serializers.ListField(child=serializers.CharField(), required=False)
+
+    class DataSerializer(serializers.Serializer):
+        Inverter = serializers.ListField(
+            child=serializers.ListField(child=serializers.CharField(), allow_empty=True),
+            required=False,
+
+        )
+        Meter = serializers.ListField(
+            child=serializers.ListField(child=serializers.CharField(), allow_empty=True),
+            required=False,
+        )
+        Weather = serializers.ListField(
+            child=serializers.ListField(child=serializers.CharField(), allow_empty=True),
+            required=False,
+        )
+        SCB = serializers.ListField(
+            child=serializers.ListField(child=serializers.CharField(), allow_empty=True),
+            required=False,
+        )
+        Plant = serializers.ListField(
+            child=serializers.ListField(child=serializers.CharField(), allow_empty=True),
+            required=False,
+        )
+
+    Tags = TagsSerializer()
+    Data = DataSerializer()
+    Timestamp = serializers.IntegerField()
+    UID = serializers.CharField()
+
+
+class PlantDataResponseSerializer(serializers.Serializer):
+    Plant = PlantSerializer(many=True)
+    Inverter = InverterSerializer(many=True)
+    Weather = WeatherSerializer(many=True)
+    SCB = SCBSerializer(many=True)
+
+
+class DataViewResponseSerializer(serializers.Serializer):
+    detail = serializers.CharField(help_text="Success or error message", required=False)
+    errors = serializers.DictField(
+        child=serializers.ListField(child=serializers.CharField()),
+        required=False,
+        help_text="Dictionary of errors by device type, if any",
+    )

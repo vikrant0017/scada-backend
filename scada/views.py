@@ -1,5 +1,8 @@
 from enum import StrEnum
 
+from django.db.models import F, Window
+from django.db.models.functions import RowNumber
+from drf_spectacular.utils import extend_schema
 from rest_framework import status
 from rest_framework.exceptions import UnsupportedMediaType, ValidationError
 from rest_framework.response import Response
@@ -8,30 +11,38 @@ from rest_framework.views import APIView
 
 from .models import SCB, Inverter, Plant, Weather
 from .serializers import (
+    DataViewRequestSerializer,
+    DataViewResponseSerializer,
     InverterSerializer,
     MeterSerializer,
+    PlantDataResponseSerializer,
     PlantSerializer,
     SCBSerializer,
     WeatherSerializer,
 )
 
-class DeviceType(StrEnum): 
-    PLANT    = "Plant"
-    METER    = "Meter"
+
+class DeviceType(StrEnum):
+    PLANT = "Plant"
+    METER = "Meter"
     INVERTER = "Inverter"
-    WEATHER  = "Weather"
-    SCB      = "SCB"
+    WEATHER = "Weather"
+    SCB = "SCB"
 
 
 SERIALIZER_MAPPING = {
     DeviceType.INVERTER: InverterSerializer,
-    DeviceType.METER   : MeterSerializer,
-    DeviceType.WEATHER : WeatherSerializer,
-    DeviceType.SCB     : SCBSerializer,
-    DeviceType.PLANT   : SCBSerializer,
+    DeviceType.METER: MeterSerializer,
+    DeviceType.WEATHER: WeatherSerializer,
+    DeviceType.SCB: SCBSerializer,
+    DeviceType.PLANT: PlantSerializer,
 }
 
 
+@extend_schema(
+    request=DataViewRequestSerializer,
+    responses={201: DataViewResponseSerializer, 206: DataViewResponseSerializer},
+)
 class DataView(APIView):
     def post(self, request):
         # Validate Content Type
@@ -39,7 +50,7 @@ class DataView(APIView):
         if content_type != "application/json":
             raise UnsupportedMediaType(content_type)
 
-        # Validate all required top-level attributes exist in JSON payload 
+        # Validate all required top-level attributes exist in JSON payload
         req_body = request.data
         missing_attrs = self._validate_attributes(
             req_body, ["Timestamp", "UID", "Data", "Tags"]
@@ -66,9 +77,14 @@ class DataView(APIView):
                     errors[device_type] = errs
 
         if errors:
-            return Response(errors, status=status.HTTP_206_PARTIAL_CONTENT)
+            return Response(
+                {"detail": "Partial success", "errors": errors},
+                status=status.HTTP_206_PARTIAL_CONTENT,
+            )
 
-        return Response(status=status.HTTP_201_CREATED)
+        return Response(
+            {"detail": "Data created successfully"}, status=status.HTTP_201_CREATED
+        )
 
     def _validate_attributes(self, data, attrs):
         return [attr for attr in attrs if attr not in data]
@@ -97,6 +113,7 @@ class DataView(APIView):
         return errs
 
 
+@extend_schema(responses=InverterSerializer(many=True))
 class InverterDetailView(APIView):
     def get(self, request, devName):
         inverter = Inverter.objects.filter(devName=devName)
@@ -104,24 +121,35 @@ class InverterDetailView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+@extend_schema(responses=PlantDataResponseSerializer)
 class PlantDataView(APIView):
+
     def get(self, request, uid):
-        inverter = Inverter.objects.filter(uid=uid)
-        plant = Plant.objects.filter(uid=uid)
-        weather = Weather.objects.filter(uid=uid)
-        scb = SCB.objects.filter(uid=uid).select_related()
+        data = {
+            "Plant": self._get_latest_device_data(Plant, uid),
+            "Inverter": self._get_latest_device_data(Inverter, uid),
+            "Weather": self._get_latest_device_data(Weather, uid),
+            "SCB": self._get_latest_device_data(SCB, uid, select_related=True),
+        }
 
-        inverter_serializer = InverterSerializer(inverter, many=True)
-        plant_serializer = PlantSerializer(plant, many=True)
-        weather_serializer = WeatherSerializer(weather, many=True)
-        scb_serializer = SCBSerializer(scb, many=True)
+        # Use the response serializer to handle the serialization
+        serializer = PlantDataResponseSerializer(data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
-        return Response(
-            {
-                "Plant": plant_serializer.data,
-                "Inverter": inverter_serializer.data,
-                "Weather": weather_serializer.data,
-                "SCB": scb_serializer.data,
-            },
-            status=status.HTTP_200_OK,
+    def _get_latest_device_data(self, model, uid, select_related=False):
+        """function to get the latest record for each device type and name."""
+        queryset = model.objects.filter(uid=uid)
+        if select_related:
+            queryset = queryset.select_related()
+            
+        return (
+            queryset
+            .annotate(
+                row_number=Window(
+                    expression=RowNumber(),
+                    partition_by=[F("devType"), F("devName")],
+                    order_by=F("timestamp").desc(),
+                )
+            )
+            .filter(row_number=1)
         )

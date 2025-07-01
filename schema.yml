@@ -1,0 +1,739 @@
+openapi: 3.0.3
+info:
+  title: SCADA System API
+  version: 1.0.0
+  description: REST API for Solar Power Plant Monitoring and Control System
+paths:
+  /api/v1/data/:
+    post:
+      operationId: v1_data_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataViewRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/DataViewRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/DataViewRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataViewResponse'
+          description: ''
+        '206':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataViewResponse'
+          description: ''
+  /api/v1/inverter/{devName}/:
+    get:
+      operationId: v1_inverter_list
+      parameters:
+      - in: path
+        name: devName
+        schema:
+          type: string
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Inverter'
+          description: ''
+  /api/v1/plant/{uid}/:
+    get:
+      operationId: v1_plant_retrieve
+      parameters:
+      - in: path
+        name: uid
+        schema:
+          type: string
+        required: true
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlantDataResponse'
+          description: ''
+components:
+  schemas:
+    Data:
+      type: object
+      properties:
+        Inverter:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        Meter:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        Weather:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        SCB:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        Plant:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+    DataViewRequest:
+      type: object
+      properties:
+        Tags:
+          $ref: '#/components/schemas/Tags'
+        Data:
+          $ref: '#/components/schemas/Data'
+        Timestamp:
+          type: integer
+        UID:
+          type: string
+      required:
+      - Data
+      - Tags
+      - Timestamp
+      - UID
+    DataViewResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+          description: Success or error message
+        errors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+          description: Dictionary of errors by device type, if any
+    Inverter:
+      type: object
+      properties:
+        uid:
+          type: string
+        devName:
+          type: string
+        devType:
+          type: string
+        timestamp:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        _inv_vin:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv vin'
+        _inv_lin:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv lin'
+        _inv_win:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv win'
+        _inv_v:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv v'
+        _inv_I:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv I'
+        _inv_w:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv w'
+        _inv_va:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv va'
+        _inv_ar:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv ar'
+        _inv_freq:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv freq'
+        _inv_pf:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv pf'
+        _inv_totyld:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv totyld'
+        _inv_inttemp:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv inttemp'
+        _inv_hstemp:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv hstemp'
+        _inv_w1:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv w1'
+        _inv_w2:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv w2'
+        _inv_w3:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv w3'
+        _inv_v1:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv v1'
+        _inv_v2:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv v2'
+        _inv_v3:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv v3'
+        _inv_i1:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv i1'
+        _inv_i2:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv i2'
+        _inv_i3:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv i3'
+        _inv_mpv1:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpv1'
+        _inv_mpi1:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpi1'
+        _inv_mpv2:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpv2'
+        _inv_mpi2:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpi2'
+        _inv_mpv3:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpv3'
+        _inv_mpi3:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpi3'
+        _inv_mpv4:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpv4'
+        _inv_mpi4:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpi4'
+        _inv_mpv5:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpv5'
+        _inv_mpi5:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpi5'
+        _inv_mpv6:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpv6'
+        _inv_mpi6:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpi6'
+        _inv_mpv7:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpv7'
+        _inv_mpi7:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpi7'
+        _inv_mpv8:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpv8'
+        _inv_mpi8:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpi8'
+        _inv_mpv9:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpv9'
+        _inv_mpi9:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpi9'
+        _inv_mpv10:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpv10'
+        _inv_mpi10:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpi10'
+        _inv_mpv11:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpv11'
+        _inv_mpi11:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpi11'
+        _inv_mpv12:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpv12'
+        _inv_mpi12:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv mpi12'
+        _inv_dayyld:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv dayyld'
+        _inv_stat:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv stat'
+        _inv_event:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv event'
+        _inv_alarm1:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv alarm1'
+        _inv_error1:
+          type: number
+          format: double
+          nullable: true
+          title: ' inv error1'
+      required:
+      - devName
+      - devType
+      - timestamp
+      - uid
+    Plant:
+      type: object
+      properties:
+        uid:
+          type: string
+        devName:
+          type: string
+        devType:
+          type: string
+        timestamp:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        slf:
+          type: number
+          format: double
+      required:
+      - devName
+      - devType
+      - slf
+      - timestamp
+      - uid
+    PlantDataResponse:
+      type: object
+      properties:
+        Plant:
+          type: array
+          items:
+            $ref: '#/components/schemas/Plant'
+        Inverter:
+          type: array
+          items:
+            $ref: '#/components/schemas/Inverter'
+        Weather:
+          type: array
+          items:
+            $ref: '#/components/schemas/Weather'
+        SCB:
+          type: array
+          items:
+            $ref: '#/components/schemas/SCB'
+      required:
+      - Inverter
+      - Plant
+      - SCB
+      - Weather
+    SCB:
+      type: object
+      properties:
+        uid:
+          type: string
+        devName:
+          type: string
+        devType:
+          type: string
+        strings:
+          $ref: '#/components/schemas/SCBString'
+        timestamp:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        _scb_v:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb v'
+        _scb_itot:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb itot'
+        _scb_ptot:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb ptot'
+        _scb_inttemp:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb inttemp'
+        _scb_exttemp1:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb exttemp1'
+      required:
+      - devName
+      - devType
+      - strings
+      - timestamp
+      - uid
+    SCBString:
+      type: object
+      properties:
+        _scb_i1:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i1'
+        _scb_i2:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i2'
+        _scb_i3:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i3'
+        _scb_i4:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i4'
+        _scb_i5:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i5'
+        _scb_i6:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i6'
+        _scb_i7:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i7'
+        _scb_i8:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i8'
+        _scb_i9:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i9'
+        _scb_i10:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i10'
+        _scb_i11:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i11'
+        _scb_i12:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i12'
+        _scb_i13:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i13'
+        _scb_i14:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i14'
+        _scb_i15:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i15'
+        _scb_i16:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i16'
+        _scb_i17:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i17'
+        _scb_i18:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i18'
+        _scb_i19:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i19'
+        _scb_i20:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i20'
+        _scb_i21:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i21'
+        _scb_i22:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i22'
+        _scb_i23:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i23'
+        _scb_i24:
+          type: number
+          format: double
+          nullable: true
+          title: ' scb i24'
+    Tags:
+      type: object
+      properties:
+        Inverter:
+          type: array
+          items:
+            type: string
+        Meter:
+          type: array
+          items:
+            type: string
+        Weather:
+          type: array
+          items:
+            type: string
+        SCB:
+          type: array
+          items:
+            type: string
+        Plant:
+          type: array
+          items:
+            type: string
+    Weather:
+      type: object
+      properties:
+        uid:
+          type: string
+        devName:
+          type: string
+        devType:
+          type: string
+        timestamp:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: -9223372036854775808
+          format: int64
+        mbWM2Horz:
+          type: number
+          format: double
+          nullable: true
+        mbWM2Tilt:
+          type: number
+          format: double
+          nullable: true
+        mbWMTA:
+          type: number
+          format: double
+          nullable: true
+        mbWMTM:
+          type: number
+          format: double
+          nullable: true
+        mbWMWS:
+          type: number
+          format: double
+          nullable: true
+        mbWMWD:
+          type: number
+          format: double
+          nullable: true
+        mbWM2HorzE:
+          type: number
+          format: double
+          nullable: true
+        mbWM2TiltE:
+          type: number
+          format: double
+          nullable: true
+        mbWMTAE:
+          type: number
+          format: double
+          nullable: true
+        mbWMTME:
+          type: number
+          format: double
+          nullable: true
+        mbWMWSE:
+          type: number
+          format: double
+          nullable: true
+        mbWMWDE:
+          type: number
+          format: double
+          nullable: true
+      required:
+      - devName
+      - devType
+      - timestamp
+      - uid
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
