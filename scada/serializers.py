@@ -12,12 +12,12 @@ class StrictCharField(serializers.CharField):
         return super().to_internal_value(data)
 
 
-class BooleanAsIntegerField(serializers.BooleanField):
-    def to_representation(self, value):
-        return 1 if super().to_representation(value) else 0
+# class BooleanAsIntegerField(serializers.BooleanField):
+#     def to_representation(self, value):
+#         return 1 if super().to_representation(value) else 0
 
-    def to_internal_value(self, data):
-        return True if data == 1 else False
+#     def to_internal_value(self, data):
+#         return True if data == 1 else False
 
 
 class InverterSerializer(serializers.ModelSerializer):
@@ -26,10 +26,10 @@ class InverterSerializer(serializers.ModelSerializer):
     devType = StrictCharField()
 
     # Convert boolean fields to integers (1/0) for API response
-    _inv_stat = BooleanAsIntegerField(required=False)
-    _inv_event = BooleanAsIntegerField(required=False)
-    _inv_alarm1 = BooleanAsIntegerField(required=False)
-    _inv_error1 = BooleanAsIntegerField(required=False)
+    # _inv_stat = BooleanAsIntegerField(required=False)
+    # _inv_event = BooleanAsIntegerField(required=False)
+    # _inv_alarm1 = BooleanAsIntegerField(required=False)
+    # _inv_error1 = BooleanAsIntegerField(required=False)
 
     class Meta:
         model = Inverter

@@ -1,0 +1,40 @@
+{
+    "PI"    : "Plant",
+    
+    "WS"    : "Weather",
+
+    "SM"    : "Meter",
+    "SC"    : "Meter",
+    "GM0"   : "Meter",
+    "MM0"   : "Meter",
+    "MC0"   : "Meter",
+    "MX_0_0": "Meter",
+
+    "I1"    : "Inverter",
+    "I2"    : "Inverter",
+    "I3"    : "Inverter",
+    "I4"    : "Inverter",
+    "I5"    : "Inverter",
+    "I6"    : "Inverter",
+    "I7"    : "Inverter",
+    "I8"    : "Inverter",
+    "I9"    : "Inverter",
+    "I10"   : "Inverter",
+    "I11"   : "Inverter",
+    "I12"   : "Inverter",
+    "I13"   : "Inverter",
+
+    "S1"    : "SCB",
+    "S2"    : "SCB",
+    "S3"    : "SCB",
+    "S4"    : "SCB",
+    "S5"    : "SCB",
+    "S6"    : "SCB",
+    "S7"    : "SCB",
+    "S8"    : "SCB",
+    "S9"    : "SCB",
+    "S10"   : "SCB",
+    "S11"   : "SCB",
+    "S12"   : "SCB",
+    "S13"   : "SCB"
+}
